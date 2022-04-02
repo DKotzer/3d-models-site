@@ -16,7 +16,7 @@
           <div class="card-panel teal-text center-align">
             No Photos Uploaded
           </div>
-          {% endfor %} {{post.files}}
+          {% endfor %} <img src="{{post.files}}" alt="" />
           <p>{{post.text_content}}</p>
           <p>Tags: {{post.tags}}</p>
           <p>Download Count: {{post.downloads}}</p>
@@ -56,6 +56,8 @@
         <td>{{comment.text_content}}</td>
         <td>{{comment.images}}</td>
       </tr>
+      <a href="{% url 'comment_update' comment.id%}">Edit</a>
+      <a href="{% url 'comment_delete' comment.id%}">Delete</a>
       {%endfor%}
     </table>
   </div>

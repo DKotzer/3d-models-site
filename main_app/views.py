@@ -14,17 +14,10 @@ import os
 from dotenv import load_dotenv
 
 
-
-
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 # from .forms import UploadFileForm
 # from .forms import ModelFormWithFileField
-import os
-
-
-
-
 
 
 
@@ -126,32 +119,6 @@ class PostCreate(LoginRequiredMixin, CreateView):
         # return reverse("/", kwargs={"post_id": self.id})
     
     
-class PostUpdate(LoginRequiredMixin, UpdateView):
-    model = Post
-    fields = ['title','files','images','text_content','tags','type']
-    
-
-class PostDelete(LoginRequiredMixin, DeleteView):
-    model = Post
-    success_url = "/"    
-    
-    
-
-class PostCreate(LoginRequiredMixin, CreateView):
-    model = Post
-    # fields = '__all__'
-    fields = ['title','files','images','text_content','tags','type']
-    
-    
-    
-    #overriding in child class
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-    
-    def get_absolute_url(self):
-        return reverse("/", kwargs={"post_id": self.id})
-    
     
 class PostUpdate(LoginRequiredMixin, UpdateView):
     model = Post
@@ -165,6 +132,15 @@ class PostDelete(LoginRequiredMixin, DeleteView):
     
 class PostDetail(LoginRequiredMixin, DetailView):
     model = Post
+    query_pk_and_slug = True;
+    
+    def get_context_data(self, **kwargs):
+        context = super(PostDetail, self).get_context_data(**kwargs)
+        context['post_id'] = post_id
+        return context        
+    # context = super().get_context_data(**kwargs)
+    
+    # comments = Comment.objects.get(id=comment_id)
     
 # def posts_details(request, post_id):
 #     posts = Post.objects.get(id=post_id)
@@ -182,6 +158,8 @@ class CommentCreate(LoginRequiredMixin, CreateView):
     model = Comment
     # fields = '__all__'
     fields = ['title','images','text_content']
+    success_url = "/posts/" 
+    
     
     def get_initial(self):
         initial = {}
@@ -198,3 +176,13 @@ class CommentCreate(LoginRequiredMixin, CreateView):
     
     def get_absolute_url(self):
         return reverse("/", kwargs={"post_id": self.id})
+
+class CommentUpdate(LoginRequiredMixin, UpdateView):
+    model = Comment
+    fields = ['title','images','text_content']
+    success_url = "/"
+    
+
+class CommentDelete(LoginRequiredMixin, DeleteView):
+    model = Comment
+    success_url = "/posts/" 
