@@ -94,38 +94,11 @@ def upload(request):
             'uploaded_file_url': uploaded_file_url
         })
     return render(request, 'upload.html')
-
-
+       
 class PostCreate(LoginRequiredMixin, CreateView):
     model = Post
     # fields = '__all__'
-    fields = ['title','files','images','text_content','tags','type']
-    
-    #overriding in child class
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-    
-    def get_absolute_url(self):
-        return redirect("post", post_id=self.id)
-        # return reverse("/", kwargs={"post_id": self.id})
-    
-    
-class PostUpdate(LoginRequiredMixin, UpdateView):
-    model = Post
-    fields = ['title','files','images','text_content','tags','type']
-    
-
-class PostDelete(LoginRequiredMixin, DeleteView):
-    model = Post
-    success_url = "/"    
-    
-    
-
-class PostCreate(LoginRequiredMixin, CreateView):
-    model = Post
-    # fields = '__all__'
-    fields = ['title','files','images','text_content','tags','type']
+    fields = ['title','image_upload','image_link','text_content','tags','type']
     
     
     
@@ -140,7 +113,7 @@ class PostCreate(LoginRequiredMixin, CreateView):
     
 class PostUpdate(LoginRequiredMixin, UpdateView):
     model = Post
-    fields = ['title','files','images','text_content','tags','type']
+    fields = ['title','image_upload','image_link','text_content','tags','type']
     success_url = "/posts/"
     
 

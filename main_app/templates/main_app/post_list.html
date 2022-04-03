@@ -8,7 +8,11 @@
   <div class="card">
     <div class="card-content">
       <span class="card-title">{{post.title}}</span>
-      <p><img src="{{post.images}}" alt="" /></p>
+      {% if post.image_link is None or Blank %}
+        <p><img src="/media/{{post.image_upload}}"  alt="" /></p>
+      {% else %}
+        <p><img src="{{post.image_link}}"  alt="" /></p>
+      {% endif %}
       <p>{{post.text_content}}</p>
       <p>Tags: {{post.tags}}</p>
       <p>Download Count: {{post.downloads}}</p>

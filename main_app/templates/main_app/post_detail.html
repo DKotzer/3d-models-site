@@ -8,7 +8,8 @@
       <div class="card-content">
         <div class="card-content">
           <span class="card-title">{{post.title}}</span>
-          <img src="{{post.images}}" alt="" />
+
+          <img src="/media/{{post.image_upload}}" alt="" />
           <!-- Insert photo markup below this comment -->
           {% for photo in post.photo_set.all %}
           <img class="responsive-img card-panel" src="{{photo.url}}" />
