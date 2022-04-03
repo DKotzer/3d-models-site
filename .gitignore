@@ -2,4 +2,10 @@
 .env.example
 .env.local
 ./env
-/ .env
+.
+./media
+./main_app/migrations
+./main_app/__pycache__
+/main_app/__pycache__
+/main_app/migrations
+

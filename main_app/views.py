@@ -98,14 +98,15 @@ class PostCreate(LoginRequiredMixin, CreateView):
     # fields = '__all__'
     fields = ['title','model','text_content','tags','type']
     
+    
     #overriding in child class
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
     
     def get_absolute_url(self):
-        return redirect("post", post_id=self.id)
-        # return reverse("/", kwargs={"post_id": self.id})
+        # return redirect("post", post_id=self.id)
+        return redirect("post", kwargs={"post_id": self.id})
     
     
 class PostUpdate(LoginRequiredMixin, UpdateView):
