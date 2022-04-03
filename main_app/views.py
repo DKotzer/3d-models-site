@@ -39,7 +39,6 @@ def add_photo(request, post_id):
             # build the full url string
             url = f"{S3_LINK_URL}{key}"
             # url = f"{S3_BASE_URL}{BUCKET}/{key}"
-            # url = f"{S3_BASE_URL}{BUCKET}/{key}"
             # we can assign to cat_id or cat (if you have a cat object)
             photo = Photo(url=url, post_id=post_id)
             photo.save()
@@ -52,8 +51,8 @@ def add_photo(request, post_id):
 
 def home(request):
     post_list = Post.objects.all()
-    print(os.getenv('NAME'))
-    return render(request, 'home.html')
+    
+    return render(request, 'home.html', {'post_list': post_list})
 
 
 def signup(request):
@@ -83,7 +82,6 @@ def signup(request):
 #     else:
 #         form = ModelFormWithFileField()
 #     return render(request, 'upload.html', {'form': form})
-
 def upload(request):
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
@@ -95,15 +93,15 @@ def upload(request):
         })
     return render(request, 'upload.html')
 
-
 class PostCreate(LoginRequiredMixin, CreateView):
     model = Post
     # fields = '__all__'
-    fields = ['title','files','images','text_content','tags','type']
+    fields = ['title','model','text_content','tags','type']
     
     #overriding in child class
     def form_valid(self, form):
         form.instance.user = self.request.user
+        print("THIS IS ME:", self.request.user)
         return super().form_valid(form)
     
     def get_absolute_url(self):
@@ -113,41 +111,14 @@ class PostCreate(LoginRequiredMixin, CreateView):
     
 class PostUpdate(LoginRequiredMixin, UpdateView):
     model = Post
-    fields = ['title','files','images','text_content','tags','type']
+    fields = ['title','model','text_content','tags','type']
     
 
 class PostDelete(LoginRequiredMixin, DeleteView):
     model = Post
     success_url = "/"    
     
-    
 
-class PostCreate(LoginRequiredMixin, CreateView):
-    model = Post
-    # fields = '__all__'
-    fields = ['title','files','images','text_content','tags','type']
-    
-    
-    
-    #overriding in child class
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-    
-    def get_absolute_url(self):
-        return reverse("/", kwargs={"post_id": self.id})
-    
-    
-class PostUpdate(LoginRequiredMixin, UpdateView):
-    model = Post
-    fields = ['title','files','images','text_content','tags','type']
-    success_url = "/posts/"
-    
-
-class PostDelete(LoginRequiredMixin, DeleteView):
-    model = Post
-    success_url = "/posts/" 
-    
 class PostDetail(LoginRequiredMixin, DetailView):
     model = Post
     
@@ -155,11 +126,9 @@ class PostDetail(LoginRequiredMixin, DetailView):
 #     posts = Post.objects.get(id=post_id)
 #     return render(request, 'posts.html', post_id=post_id)
 
-  
 class PostList(LoginRequiredMixin, ListView):
     model = Post
     
-        
 class CommentCreate(LoginRequiredMixin, CreateView):
     model = Comment
     # fields = '__all__'
@@ -175,8 +144,11 @@ class CommentCreate(LoginRequiredMixin, CreateView):
     
     #overriding in child class
     def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+        # comment = form.save(commit=False)
+        # comment.post = 
+        form.instance.post_id = self.kwargs.get('pk')
+        print("HELLO:", form.instance.post_id)
+        return super(CommentCreate, self).form_valid(form)
     
     def get_absolute_url(self):
         return reverse("/", kwargs={"post_id": self.id})
