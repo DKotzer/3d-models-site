@@ -51,6 +51,11 @@ def add_photo(request, post_id):
 
 # Create your views here.
 
+
+
+
+# Create your views here.
+
 def home(request):
     post_list = Post.objects.all()
     
@@ -95,15 +100,50 @@ def upload(request):
         })
     return render(request, 'upload.html')
 
+
+
+def add_model(request, post_id):
+    # photo-file will be the "name" attribute on the <input type="file">
+    photo_file = request.FILES.get('model', None)
+    print("photo file test",photo_file)
+    if photo_file:
+        s3 = boto3.client('s3')
+        # need a unique "key" for S3 / needs image file extension too
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        print("key test", key)
+        # just in case something goes wrong
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            # build the full url string
+            url = f"{S3_LINK_URL}{key}"
+            # print("url test",url)
+            photo = Photo(url=url, post_id=post_id)
+            post = Post.objects.get(id=post_id)
+            # print("post test",post.model)
+            # print("photo url",photo.url)
+            post.model = photo.url
+            photo.save()
+            post.save()
+        except:
+            print('An error occurred uploading file to S3')
+        
+    return render(request, 'home.html')
+    # return redirect('posts', post_id=post_id)
+
 class PostCreate(LoginRequiredMixin, CreateView):
     model = Post
     # fields = '__all__'
     fields = ['title','model','text_content','tags','type']
     
     #overriding in child class
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+    def form_valid(self, form, *args,**kwargs):
+        # print("POST Test",self.request.POST)
+        form = Post(title=self.request.POST.get('title'),text_content=self.request.POST.get('text_content'),tags=self.request.POST.get('tags') )
+        form.user_id = self.request.user.id
+        form.save()
+        add_model(self.request, form.id)
+        
+        # return super().form_valid(form)
     
     
 class PostUpdate(LoginRequiredMixin, UpdateView):
