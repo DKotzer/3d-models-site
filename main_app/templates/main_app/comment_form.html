@@ -3,13 +3,13 @@
 {%else%}
 <h1>Add Comment</h1>
 {% endif %}
-
-<form action="" method="post">
-  {% csrf_token %}
-  <table>
-    {{form.as_table}}
-  </table>
-  <input type="submit" value="Submit" class="btn" />
-</form>
-
+<div class="center">
+  <form action="" method="post">
+    {% csrf_token %}
+    <table>
+      {{form.as_table}}
+    </table>
+    <input type="submit" value="Submit" class="btn" />
+  </form>
+</div>
 {% endblock %}
