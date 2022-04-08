@@ -5,7 +5,7 @@
 ![3d](https://user-images.githubusercontent.com/34380246/161459562-8f24140a-1ddb-49df-ab03-b62be923950c.png)
 </a>
 
-<h1 align="center">3D Models Site</h1>
+<h1 align="center">3D World</h1>
 
     Third Project for General Assembly SEI
 
@@ -19,7 +19,7 @@
 
 ## General Overview
 
-3D Models Site is a 3D model sharing platform that allows creators to easily showcase and share their 3d models with the rest of the users on the site.
+3D World is a 3D model sharing platform that allows creators to easily showcase and share their 3d models with the rest of the users on the site.
 For now we are focusing on GLB files but also plan to have a 3d printing (STL) section.
 
 ![Main Page](https://i.imgur.com/qc64mRe.png)
@@ -30,14 +30,11 @@ Before being able to download, like or comment on any of the models you must fir
 
 ![Profile Page](https://i.imgur.com/uhUj9z5.png)
 
-
 ## My Models Page
 
 Once logged in a user can add their own models and have their own 'My Models' Page.
 
 ![My Models](https://i.imgur.com/HpiigSh.png)
-
-
 
 ## Models Page
 
@@ -54,7 +51,7 @@ Each model will have a detail page that allows the post creator to upload more i
 
 ## Getting Started
 
-[3D Model Site](https://the3dmodelssite.herokuapp.com/)
+[3D World](https://the3dmodelssite.herokuapp.com/)
 
 ## About The Project
 
