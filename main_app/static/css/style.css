@@ -338,6 +338,20 @@ img.alt-icon {
   display: inline-block;
 }
 
+img.comment-icon {
+  width: 45px;
+  height: 45px;
+  margin: 0 auto;
+  display: inline-block;
+  position: relative;
+  top: -10px;
+}
+
+span.right {
+  position: relative;
+  top: -05px;
+}
+
 .hidden {
   visibility: hidden;
 }
@@ -360,6 +374,19 @@ img.alt-icon {
 
 .comment-box {
   width: 580px;
+}
+
+.comment p {
+  text-align: left;
+  margin-left: 50px;
+}
+
+.card .comment .card-title {
+  text-align: left;
+  margin-left: 50px;
+}
+.comment-title {
+  font-weight: bolder;
 }
 
 .post-text {
@@ -482,4 +509,11 @@ input[type="file"] {
   text-shadow: 1px 1px #fff;
   font-weight: 700;
   font-size: 10pt;
+}
+
+.row .col.m6 {
+  width: 100%;
+  margin-left: auto;
+  left: auto;
+  right: auto;
 }
