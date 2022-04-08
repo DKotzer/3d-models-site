@@ -228,6 +228,10 @@ model-viewer {
   content: "Un";
 }
 
+.buttons form {
+  background-color: rgba(153, 153, 153, 0);
+}
+
 .list-gallery {
   max-width: 390px;
   overflow: hidden;
@@ -370,6 +374,21 @@ span.right {
 }
 .transparent {
   background-color: rgba(240, 248, 255, 0) !important;
+}
+.comment-name {
+  position: relative;
+  top: -35px;
+}
+
+.account-display {
+  border: 2px black solid;
+  width: fit-content;
+  padding: 30px;
+  margin: 0 auto;
+  border-radius: 8px;
+  background-color: #222;
+  color: white;
+  margin-bottom: 20px;
 }
 
 .comment-box {
