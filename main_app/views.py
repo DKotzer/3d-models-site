@@ -38,6 +38,7 @@ S3_BASE_URL = os.getenv('S3_BASE_URL')
 S3_LINK_URL = os.getenv('S3_LINK_URL')
 BUCKET = os.getenv('BUCKET')
 
+@login_required
 def add_photo(request, post_id):
     # photo-file will be the "name" attribute on the <input type="file">
     photo_file = request.FILES.get('photo-file', None)
@@ -170,7 +171,7 @@ def posts_index_oldest(request):
     return render(request, 'main_app/posts_index.html', {'post_list': post_list , 'posts': posts})
 
 
-
+@login_required
 def user_posts_index(request):
     post_list = Post.objects.filter(user=request.user.id)
     #infiniscroll test
@@ -185,7 +186,7 @@ def user_posts_index(request):
     return render(request, 'main_app/user_posts_index.html', {'post_list': post_list , 'posts': posts})
 
 
-
+@login_required
 def signup(request):
     error_message = ''
     if request.method == 'POST':
@@ -243,7 +244,7 @@ def signup(request):
     account_form = AccountCreate()
     context = {'form':form, 'error_message': error_message , 'account_form': account_form}
     return render(request, 'registration/signup.html', context)
-
+@login_required
 def upload(request):
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
@@ -350,7 +351,7 @@ class PostCreate(LoginRequiredMixin, CreateView):
     
 class PostUpdate(LoginRequiredMixin, UpdateView):
     model = Post
-    fields = ['title','model','text_content','tags','type']
+    fields = ['title','text_content','tags','type']
     
 
 class PostDelete(LoginRequiredMixin, DeleteView):
@@ -361,7 +362,7 @@ class PostDelete(LoginRequiredMixin, DeleteView):
 
 # class PostDetail(LoginRequiredMixin, DetailView):
 #     model = Post
-
+@login_required
 def detail(request, pk):
     post = Post.objects.get(id=pk)
     own_post = False

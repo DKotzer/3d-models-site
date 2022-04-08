@@ -131,61 +131,42 @@
   </br>
 
 
-
-
-
-
-
-  {% comment %} <h5> Comments </h5> {% endcomment %}
-  <a class="btn" href="{% url 'comment_create' post.pk %}">Leave a comment
-    </a>
+  <div class="center">
+    <a class="btn" href="{% url 'comment_create' post.pk %}">Leave a comment
+      </a>
+  </div>
   {% if not post.comments.all %}
     <div class="comment-container theme--light">
     <div class="comments" >No Comments yet...
     <div class="card v-card v-sheet theme--light elevation-2" ><span class="headline" ></span>  
-  
-     
+
   {% else %}
 
 </br>
       {% for comment in post.comments.all %}  
-</br></hr>
-            <div  >
-      <div  class="card v-card v-sheet theme--light elevation-2">
-        <div  class="header comment-box">
-        <!---->
-        
-        <div  class="wrapper comment">
-          <p>{{ comment.title}}</p>
+</br>
+  <div class="row center">
+    <div class="col s12 m6">
+      <div class="card comment-box blue-grey darken-1">
+        <div class="card-content comment white-text lefty">
+          <span class="card-title"><div class="comment-title">{{ comment.title}}</div> <span class="right">By: {{comment.user.username}} <img class="right responsive-img comment-icon" src="{{comment.user.account.picture}}"</span></span>
+          <p>{{comment.text_content }}</p>
         </div>
-        </br>
-        <div  class="v-dialog__container" style="display: block;">{{ comment.text_content }}</div>
-        <p>By: {{comment.user.username}} <img class="responsive-img icon" src="{{comment.user.account.picture}}" /> </p>
-        <div  class="actions">
-          <!---->
+        {%if comment.user.username == request.user.username %}
+        <div class="card-action">
           <a class="btn color blue" href="{% url 'comment_update' comment.id%}">Edit</a>
-      <a class="btn color red" href="{% url 'comment_delete' comment.id%}">Delete</a>
+          <a class="btn color red" href="{% url 'comment_delete' comment.id%}">Delete</a>
         </div>
-        
-    
-      
+        {%endif%}
+      </div>
+    </div>
+  </div>
+
     </hr>
     {% endfor %}
+
   {% endif %}
-    {% comment %} <table>
-      <tr>
-        <th>Title</th>
-        <th>Content</th>
-        <th>Images</th>
-      </tr>
-      {% for comment in post.comments%}
-      <tr>
-        <td>{{comment.title}}</td>
-        <td>{{comment.text_content}}</td>
-        <td>{{comment.images}}</td>
-      </tr>
-      {%endfor%}
-    </table> {% endcomment %}
+
   </div>
   {% endblock %}
 </div>
