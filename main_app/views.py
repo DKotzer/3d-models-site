@@ -50,6 +50,8 @@ def add_photo(request, post_id):
 #home page view with pagination and sorted by newest first
 def home(request):
     post_list = Post.objects.all()
+    for post in post_list: 
+        post.like_count = len(post.likes.all())
     new_sort = sorted(post_list, key=attrgetter('pk'), reverse=True)
     #infiniscroll test
     page = request.GET.get('page', 1)
@@ -65,6 +67,8 @@ def home(request):
 #home page view with pagination and sorted by oldest first
 def home_oldest(request):
     post_list = Post.objects.all()
+    for post in post_list: 
+        post.like_count = len(post.likes.all())
     old_sort = sorted(post_list, key=attrgetter('pk'), reverse=False)
     #infiniscroll test
     page = request.GET.get('page', 1)
@@ -150,6 +154,8 @@ def posts_index_oldest(request):
 @login_required
 def user_posts_index(request):
     post_list = Post.objects.filter(user=request.user.id)
+    for post in post_list: 
+        post.like_count = len(post.likes.all())
     #infiniscroll test
     page = request.GET.get('page', 1)
     paginator = Paginator(post_list, 18)
