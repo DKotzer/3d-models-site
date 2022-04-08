@@ -3,11 +3,11 @@ from . import views
 from .views import LikeView, UnlikeView, SearchPost
 
 urlpatterns = [
+    
+    #HOME 
     path('', views.home, name="home"), #in views folder use home view
     path('oldest', views.home_oldest, name="home_oldest"),
     path('likes', views.home_likes, name="home_likes"),
-    
-    
     
     #POSTs
     path('posts/create', views.PostCreate.as_view(), name="post_create"),
@@ -18,20 +18,13 @@ urlpatterns = [
     path('posts/<int:pk>/update/', views.PostUpdate.as_view(), name="post_update"),
     path('posts/<int:pk>/delete/', views.PostDelete.as_view(), name="post_delete"),
     path('posts/<int:pk>/', views.detail, name='post_detail'),
-    # path('posts/<int:pk>/', views.PostDetail.as_view(), name='post_detail'),
-    # path('posts/', views.PostList.as_view(),name="posts_index"),
     path('posts/<int:post_id>/add_photo/', views.add_photo, name='add_photo'),
-    # path('posts/<int:post_id>', views.posts_details, name="post_details"),
     path('posts/search/', views.SearchPost, name='search_post'),
-
     path('like/<int:pk>/', views.LikeView, name='like_post'),
     path('unlike/<int:pk>/', views.UnlikeView, name='unlike_post'),
     
-    # path('post/<int:pk>/', views.PostDetail.as_view(), name='post_details'),
-    
     
     #COMMENTS
-    # path('posts/<int:pk>/comments/create', views.CommentCreate.as_view(), name="comment_create"),
     path('post/<int:pk>/comment/', views.CommentCreate.as_view(), name='comment_create'),
     path('post/<int:pk>/comment/update/', views.CommentUpdate.as_view(), name="comment_update"),   
     path('post/<int:pk>/comment/delete/', views.CommentDelete.as_view(), name="comment_delete"),
@@ -39,11 +32,8 @@ urlpatterns = [
     #URL path for signup
     path('account/signup',views.signup,name='signup'),
     path('account/edit_profile/',views.edit_profile,name='edit_profile'),
-    # path('account/edit_profile',views.UserEditView.as_view(),name='edit_profile'),
-    
 
-    # path('upload/', views.upload, name='upload'),
-    
+    #ACCOUNT
     path('profile/', views.profile, name='profile'),
     
     ]   

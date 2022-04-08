@@ -1,33 +1,24 @@
-import operator
+
 from operator import attrgetter
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Account, Comment, Post, Photo
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views import generic
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import  DetailView
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.urls import reverse, path
 from .forms import AccountCreate,EditProfileForm, EditUserForm
-
-from django.urls import reverse, path, reverse_lazy
+from django.urls import reverse, path
 from .forms import AccountCreate
 from .forms import EditProfileForm
-
 import uuid
 import boto3
 import os
-
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-
-
-
-from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
 
@@ -38,30 +29,25 @@ S3_BASE_URL = os.getenv('S3_BASE_URL')
 S3_LINK_URL = os.getenv('S3_LINK_URL')
 BUCKET = os.getenv('BUCKET')
 
+
+#add photo function mostly from the lesson markdown
 @login_required
 def add_photo(request, post_id):
-    # photo-file will be the "name" attribute on the <input type="file">
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
         s3 = boto3.client('s3')
-        # need a unique "key" for S3 / needs image file extension too
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-        # just in case something goes wrong
         try:
             s3.upload_fileobj(photo_file, BUCKET, key)
-            # build the full url string
             url = f"{S3_LINK_URL}{key}"
-            # url = f"{S3_BASE_URL}{BUCKET}/{key}"
-            # we can assign to cat_id or cat (if you have a cat object)
             photo = Photo(url=url, post_id=post_id)
             photo.save()
         except:
             print('photo An error occurred uploading file to S3')
     return HttpResponseRedirect(reverse('post_detail', args=[post_id]))
-    # return redirect('posts', post_id=post_id)
 
-# Create your views here.
 
+#home page view with pagination and sorted by newest first
 def home(request):
     post_list = Post.objects.all()
     new_sort = sorted(post_list, key=attrgetter('pk'), reverse=True)
@@ -76,7 +62,7 @@ def home(request):
         posts = paginator.page(paginator.num_pages)
     return render(request, 'home.html', {'post_list': post_list , 'posts': posts})
 
-
+#home page view with pagination and sorted by oldest first
 def home_oldest(request):
     post_list = Post.objects.all()
     old_sort = sorted(post_list, key=attrgetter('pk'), reverse=False)
@@ -91,6 +77,7 @@ def home_oldest(request):
         posts = paginator.page(paginator.num_pages)
     return render(request, 'home.html', {'post_list': post_list , 'posts': posts})
 
+#home page view with pagination and sorted by most likes
 def home_likes(request):
     post_list = Post.objects.all()
     for post in post_list: 
@@ -107,21 +94,12 @@ def home_likes(request):
         posts = paginator.page(paginator.num_pages)
     return render(request, 'home.html', {'post_list': post_list , 'posts': posts})
 
-
-
-
-
-
-
-# def posts_index(request, sort='new_sort'):
+#post index page view with pagination and sorted by newest first
 def posts_index(request):
     post_list = Post.objects.all()
     for post in post_list: 
         post.like_count = len(post.likes.all())
     new_sort = sorted(post_list, key=attrgetter('pk'), reverse=True)
-    
-    
-    
     page = request.GET.get('page', 1)
     paginator = Paginator(new_sort, 18)
     try:
@@ -132,15 +110,13 @@ def posts_index(request):
         posts = paginator.page(paginator.num_pages)
     return render(request, 'main_app/posts_index.html', {'post_list': post_list , 'posts': posts})
 
+#post index page view with pagination and sorted by most likes
 def posts_index_likes(request):
     post_list = Post.objects.all()
     for post in post_list: 
         post.like_count = len(post.likes.all())
 
     like_sort = sorted(post_list, key=attrgetter('like_count'), reverse=True)
-    
-    
-    
     page = request.GET.get('page', 1)
     paginator = Paginator(like_sort, 18)
     try:
@@ -151,7 +127,7 @@ def posts_index_likes(request):
         posts = paginator.page(paginator.num_pages)
     return render(request, 'main_app/posts_index.html', {'post_list': post_list , 'posts': posts})
 
-
+#post index page view with pagination and sorted by oldest first
 def posts_index_oldest(request):
     post_list = Post.objects.all()
     for post in post_list: 
@@ -170,7 +146,7 @@ def posts_index_oldest(request):
         posts = paginator.page(paginator.num_pages)
     return render(request, 'main_app/posts_index.html', {'post_list': post_list , 'posts': posts})
 
-
+#view of users posts with pagination
 @login_required
 def user_posts_index(request):
     post_list = Post.objects.filter(user=request.user.id)
@@ -186,7 +162,7 @@ def user_posts_index(request):
     return render(request, 'main_app/user_posts_index.html', {'post_list': post_list , 'posts': posts})
 
 
-
+#signup automatically creates an account adds the account picture to it via form and then saves the user and account with default picture if none is uploaded
 def signup(request):
     error_message = ''
     if request.method == 'POST':
@@ -200,8 +176,6 @@ def signup(request):
             # need a unique "key" for S3 / needs image file extension too
             key = uuid.uuid4().hex[:6] + account_pic.name[account_pic.name.rfind('.'):]
             print("key test", key)
-            # just in case something goes wrong
-            # try:
             s3.upload_fileobj(account_pic, BUCKET, key)
             # build the full url string
             url = f"{S3_LINK_URL}{key}"
@@ -218,48 +192,33 @@ def signup(request):
                 account.save()
                 #login the user
                 login(request, user)
-                # Account.objects.create(user=request.user)
                 return redirect('/')
             else:
                 error_message = "Invalid Sign Up Submission - Try Again"
-
-            # except:
-        else:    #    print('An error occurred uploading file to S3')
+        else:    
             account_form = AccountCreate(request.POST)
             if form.is_valid():
                 print("accountForm", account_form)
-                #save user to DB
                 user = form.save()
                 account = account_form.save(commit=False)
                 account.user = user
                 account.picture = "/media/models/accountImg/default.png"
                 print('AccountURL:', account.picture)
                 account.save()
-                #login the user
                 login(request, user)
-                # Account.objects.create(user=request.user)
                 return redirect('/')
         
     form = EditUserForm()
     account_form = AccountCreate()
     context = {'form':form, 'error_message': error_message , 'account_form': account_form}
     return render(request, 'registration/signup.html', context)
-@login_required
-def upload(request):
-    if request.method == 'POST' and request.FILES['myfile']:
-        myfile = request.FILES['myfile']
-        fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
-        return render(request, 'upload.html', {
-            'uploaded_file_url': uploaded_file_url
-        })
-    return render(request, 'upload.html')
 
 
+#Profile detail CBV that is probably unused
 class ProfileDetail(LoginRequiredMixin, DetailView):
     model = Account
 
+#the actual profile view that we are using, counts total likes and shows the posts you have liked in a list sorted by newest first
 @login_required
 def profile(request):
     profile_details = Account.objects.all()
@@ -283,13 +242,6 @@ def profile(request):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
     
-        
-        
-     
-        
-        
-        
-
     return render(request, 'registration/profile.html', {'profile_details':profile_details, 'like_count':like_count, 'post_count':post_count, 'posts': posts})
 
 
@@ -302,31 +254,18 @@ def add_model(request, post_id):
         s3 = boto3.client('s3')
         # need a unique "key" for S3 / needs image file extension too
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-        print("key test", key)
         # just in case something goes wrong
         try:
             s3.upload_fileobj(photo_file, BUCKET, key)
             # build the full url string
             url = f"{S3_LINK_URL}{key}"
-            print('url',url)
-            # print("url test",url)
             photo = Photo(url=url, post_id=post_id)
-            print(photo)
             post = Post.objects.get(id=post_id)
-            print(post)
-            # print("post test",post.model)
-            # print("photo url",photo.url)
             post.model = photo.url
-            # photo.save()
             post.save()
         except:
             print('An error occurred uploading file to S3')
         
-    
-    
-
-            
-
 class PostCreate(LoginRequiredMixin, CreateView):
     model = Post
     # fields = '__all__'
@@ -344,24 +283,20 @@ class PostCreate(LoginRequiredMixin, CreateView):
         print("post test",post.title)
         return HttpResponseRedirect(reverse('post_detail', args=[form.id]))
          
-        
 
-    
-    
-    
+#Class based Update View
 class PostUpdate(LoginRequiredMixin, UpdateView):
     model = Post
     fields = ['title','text_content','tags','type']
     
-
+#Class based delete view
 class PostDelete(LoginRequiredMixin, DeleteView):
     model = Post
     success_url = "/"   
     
     
 
-# class PostDetail(LoginRequiredMixin, DetailView):
-#     model = Post
+#the model details page, checks if person viewing has like already. 
 @login_required
 def detail(request, pk):
     post = Post.objects.get(id=pk)
@@ -375,11 +310,8 @@ def detail(request, pk):
     print(Post.objects.get(id=pk).likes.all())
     return render(request,'main_app/post_detail.html',{'post': post, 'liked': liked, 'own_post': own_post})
 
-# class PostList(LoginRequiredMixin, ListView):
-#     model = Post
     
-
-
+#class based comment create view with some fancyness to get access to the post id that only took 2 days to figure out.
 class CommentCreate(LoginRequiredMixin, CreateView):
     model = Comment
     # fields = '__all__'
@@ -400,15 +332,6 @@ class CommentCreate(LoginRequiredMixin, CreateView):
         form.save()
         # comment = Comment.objects.get(id=form.id)
         return HttpResponseRedirect(reverse('post_detail', args=[form.post_id]))
-    
-    #overriding in child class
-    # def form_valid(self, form):
-    #     # comment = form.save(commit=False)
-    #     # comment.post = 
-    #     form.instance.post_id = self.kwargs.get('pk')
-    #     # print("HELLO:", form.instance.post_id)
-    #     # print("HI THERE:", self.kwargs.get('pk'))
-    #     return super(CommentCreate, self).form_valid(form)
     
     
 class CommentUpdate(LoginRequiredMixin, UpdateView):
@@ -445,6 +368,7 @@ def LikeView(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
     post.likes.add(request.user)
     return HttpResponseRedirect(reverse('post_detail', args=[str(pk)]))
+
 @login_required
 def UnlikeView(request, pk):
     print("POST", Post)
@@ -519,22 +443,4 @@ def edit_profile(request):
     account_form = AccountCreate(instance=request.user)
     context = {'form':form, 'error_message': error_message, 'account_form': account_form}
     return render(request, 'registration/edit_profile.html', context)
-
-
-# def signup(request):
-#     error_message = ''
-#     if request.method == 'POST':
-#         form = UserCreationForm(request.POST)
-#         if form.is_valid():
-#             #save user to DB
-#             user = form.save()
-#             #login the user
-#             login(request, user)
-#             Account.objects.create(user=request.user)
-#             return redirect('/')
-#         else:
-#             error_message = "Invalid Sign Up Submission - Try Again"
-#     form = UserCreationForm()
-#     context = {'form':form, 'error_message': error_message}
-#     return render(request, 'registration/signup.html', context)
 
