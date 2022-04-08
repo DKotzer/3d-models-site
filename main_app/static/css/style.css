@@ -86,10 +86,7 @@ form {
 
 .card-content img:hover {
   margin: auto;
-  /* width: 100%; */
-  /* height: 100%; */
   transform: scale(1.05);
-  /* cursor: pointer; */
 }
 
 .list {
@@ -231,6 +228,10 @@ model-viewer {
   content: "Un";
 }
 
+.buttons form {
+  background-color: rgba(153, 153, 153, 0);
+}
+
 .list-gallery {
   max-width: 390px;
   overflow: hidden;
@@ -270,6 +271,13 @@ img.responsive-img.card-panel {
   height: 110px !important;
   position: relative !important;
   top: 55px !important;
+}
+
+.medium {
+  width: 110px !important;
+  height: 110px !important;
+  position: relative !important;
+  top: 40px !important;
 }
 
 img.responsive-img {
@@ -334,6 +342,20 @@ img.alt-icon {
   display: inline-block;
 }
 
+img.comment-icon {
+  width: 45px;
+  height: 45px;
+  margin: 0 auto;
+  display: inline-block;
+  position: relative;
+  top: -10px;
+}
+
+span.right {
+  position: relative;
+  top: -05px;
+}
+
 .hidden {
   visibility: hidden;
 }
@@ -353,9 +375,37 @@ img.alt-icon {
 .transparent {
   background-color: rgba(240, 248, 255, 0) !important;
 }
+.comment-name {
+  position: relative;
+  top: -35px;
+}
+
+.account-display {
+  border: 2px black solid;
+  width: fit-content;
+  padding: 30px;
+  margin: 0 auto;
+  border-radius: 8px;
+  background-color: #222;
+  color: white;
+  margin-bottom: 20px;
+}
 
 .comment-box {
   width: 580px;
+}
+
+.comment p {
+  text-align: left;
+  margin-left: 50px;
+}
+
+.card .comment .card-title {
+  text-align: left;
+  margin-left: 50px;
+}
+.comment-title {
+  font-weight: bolder;
 }
 
 .post-text {
@@ -414,6 +464,7 @@ img.alt-icon {
 
 .account-img {
   height: 250px;
+  margin-right: 50px;
 }
 
 .card .card-title {
@@ -458,4 +509,30 @@ select {
 
 .index-h1 {
   margin-bottom: -20px;
+}
+h1 {
+  text-align: center;
+}
+
+input[type="file"] {
+  padding: none;
+  padding: 6px 12px;
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+
+.row .col.m6 {
+  width: 100%;
+  margin-left: auto;
+  left: auto;
+  right: auto;
 }
