@@ -24,24 +24,24 @@ For now we are focusing on GLB files but also plan to have a 3d printing (STL) s
 
 ## Account
 
-Before being able to download, like or favorite any of the models you must first make an account and then log in. You can navigate using the main Navigation Bar at the top and can also log out from there.
+Before being able to download, like or comment on any of the models you must first make an account and then log in. You can navigate using the main Navigation Bar at the top and can also log out from there. Users are able to upload their own profile pic, display their models, and check how many likes they get on their posts!
+
 
 ## Logged in Page
 
-The home page when logged in will be a list of your favorite models.
+Once logged in a user can add their own models and have their own 'My Models' Page.
 
-## Post List Page
+## Models Page
 
-The Post list page will display all of the models on the site with limited infinscroll functionality to minimize .
+The Models page will display all of the models on the site with limited infinscroll functionality to minimize loading issues.
 
-## Post Detail Page
+## Model Detail Page
 
-Each post will have a detail page that allows the post creator to upload more images/edit post and allows users to download the files and comment/favorite/like.
+Each model will have a detail page that allows the post creator to upload more images, edit the post, and allows users to download the files. Users will also be able to comment on and like models.
 
 ## Getting Started
 
-Install instructions goes here:
-Link to Heroku goes here:
+[3D Model Site](https://the3dmodelssite.herokuapp.com/)
 
 ## About The Project
 
@@ -69,8 +69,10 @@ The purpose of the project is to demonstrate and practice our newly learned skil
 
 ## Icebox :icecream:
 
-- icebox item1
-- icebox item2
+- allow users to upload SDL files
+- allow users to post videos for their models
+- API intergration for printing
+- allow users to delete their account
 
 ## Original Plan
 
