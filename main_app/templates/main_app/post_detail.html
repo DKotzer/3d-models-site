@@ -92,7 +92,6 @@
               <button type="submit" name="post_id" value="{{ post.id }}" class="btn color red unlike" value="Like">Like</button> {{post.total_likes}} Likes
             </form>
             {% endif %}
-            <p>Download Count: {{post.downloads}}</p>
            
             <p>Uploaded By: {{post.user.username}} <img class="responsive-img icon" src="{{post.user.account.picture}}" /> </p>
     
