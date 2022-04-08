@@ -4,10 +4,10 @@
   <h1>Profile Info</h1>
 </div>
 <div class="content-section">
-  <div class="media">
+  <div class="media account-display">
     <img class="circle account-img" src="{{ user.account.picture }}" />
     <div class="media-body">
-      <h2 class="account-heading">Welcome {{ user.username }}</h2>
+      <h2 class="account-heading">{{ user.username }}</h2>
       <p class="text-secondary">{{ user.email }}</p>
       <p>Like Count: {{like_count}}</p>
       <p>Model Count: {{post_count}}</p>

@@ -149,7 +149,7 @@
     <div class="col s12 m6">
       <div class="card comment-box blue-grey darken-1">
         <div class="card-content comment white-text lefty">
-          <span class="card-title"><div class="comment-title">{{ comment.title}}</div> <span class="right">By: {{comment.user.username}} <img class="right responsive-img comment-icon" src="{{comment.user.account.picture}}"</span></span>
+          <div class="card-title"><div class="comment-title">{{ comment.title}}</div> <div class="right comment-name">By: {{comment.user.username}} <img class="right responsive-img comment-icon" src="{{comment.user.account.picture}}"</span></div>
           <p>{{comment.text_content }}</p>
         </div>
         {%if comment.user.username == request.user.username %}
