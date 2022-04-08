@@ -22,20 +22,20 @@
 3D Models Site is a 3D model sharing platform that allows creators to easily showcase and share their 3d models with the rest of the users on the site.
 For now we are focusing on GLB files but also plan to have a 3d printing (STL) section.
 
-![Main Page](https://imgur.com/a/AgRPudg)
+![Main Page](https://i.imgur.com/qc64mRe.png)
 
 ## Account
 
 Before being able to download, like or comment on any of the models you must first make an account and then log in. You can navigate using the main Navigation Bar at the top and can also log out from there. Users are able to upload their own profile pic, display their models, and check how many likes they get on their posts!
 
-![Profile Page](https://imgur.com/a/4zbmKUW)
+![Profile Page](https://i.imgur.com/uhUj9z5.png)
 
 
 ## My Models Page
 
 Once logged in a user can add their own models and have their own 'My Models' Page.
 
-![My Models](https://imgur.com/a/4uc8lXM)
+![My Models](https://i.imgur.com/HpiigSh.png)
 
 
 
@@ -43,18 +43,18 @@ Once logged in a user can add their own models and have their own 'My Models' Pa
 
 The Models page will display all of the models on the site with limited infinscroll functionality to minimize loading issues.
 
-![Models Page](https://imgur.com/a/2jcIyG3)
+![Models Page](https://i.imgur.com/OFw8s4s.png)
 
 ## Model Detail Page
 
 Each model will have a detail page that allows the post creator to upload more images, edit the post, and allows users to download the files. Users will also be able to comment on and like models.
 
-![Comments](https://imgur.com/a/q50SbXQ)
-![Model Detail Page](https://imgur.com/a/dDgNu3G)
+![Comments](https://i.imgur.com/rNK4jVr.png)
+![Model Detail Page](https://i.imgur.com/TgbSDff.png)
 
 ## Getting Started
 
-![3D Model Site](https://the3dmodelssite.herokuapp.com/)
+[3D Model Site](https://the3dmodelssite.herokuapp.com/)
 
 ## About The Project
 
