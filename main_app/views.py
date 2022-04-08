@@ -186,7 +186,7 @@ def user_posts_index(request):
     return render(request, 'main_app/user_posts_index.html', {'post_list': post_list , 'posts': posts})
 
 
-@login_required
+
 def signup(request):
     error_message = ''
     if request.method == 'POST':
