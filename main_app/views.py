@@ -55,7 +55,7 @@ def home(request):
     new_sort = sorted(post_list, key=attrgetter('pk'), reverse=True)
     #infiniscroll test
     page = request.GET.get('page', 1)
-    paginator = Paginator(new_sort, 18)
+    paginator = Paginator(new_sort, 12)
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -72,7 +72,7 @@ def home_oldest(request):
     old_sort = sorted(post_list, key=attrgetter('pk'), reverse=False)
     #infiniscroll test
     page = request.GET.get('page', 1)
-    paginator = Paginator(old_sort, 18)
+    paginator = Paginator(old_sort, 12)
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -89,7 +89,7 @@ def home_likes(request):
     like_sort = sorted(post_list, key=attrgetter('like_count'), reverse=True)
     #infiniscroll test
     page = request.GET.get('page', 1)
-    paginator = Paginator(like_sort, 18)
+    paginator = Paginator(like_sort, 12)
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -105,7 +105,7 @@ def posts_index(request):
         post.like_count = len(post.likes.all())
     new_sort = sorted(post_list, key=attrgetter('pk'), reverse=True)
     page = request.GET.get('page', 1)
-    paginator = Paginator(new_sort, 18)
+    paginator = Paginator(new_sort, 12)
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -122,7 +122,7 @@ def posts_index_likes(request):
 
     like_sort = sorted(post_list, key=attrgetter('like_count'), reverse=True)
     page = request.GET.get('page', 1)
-    paginator = Paginator(like_sort, 18)
+    paginator = Paginator(like_sort, 12)
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -141,7 +141,7 @@ def posts_index_oldest(request):
     old_sort = sorted(post_list, key=attrgetter('pk'), reverse=False) 
     
     page = request.GET.get('page', 1)
-    paginator = Paginator(old_sort, 18)
+    paginator = Paginator(old_sort, 12)
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -158,7 +158,7 @@ def user_posts_index(request):
         post.like_count = len(post.likes.all())
     #infiniscroll test
     page = request.GET.get('page', 1)
-    paginator = Paginator(post_list, 18)
+    paginator = Paginator(post_list, 12)
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -240,7 +240,7 @@ def profile(request):
     new_sort = sorted(post_sort, key=attrgetter('pk'), reverse=True)
    
     page = request.GET.get('page', 1)
-    paginator = Paginator(new_sort, 18)
+    paginator = Paginator(new_sort, 12)
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
