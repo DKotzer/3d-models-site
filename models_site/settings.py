@@ -100,14 +100,11 @@ DATABASES = {
     
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-
-        'NAME': 'd2pibq6kqqr4jh',
-        'USER': 'rdlbzlwdbujbum',
-        'PASSWORD': 'e1018ef45ac17769ee8a861d68eddff35e32b3d6b8238fd8fd3eb80ebcb7998f',
-        'HOST':'ec2-52-73-155-171.compute-1.amazonaws.com',
+        'NAME': 'threedworld',
+        'USER': 'postgres',
+        'PASSWORD': '150Knights',
+        'HOST':'192.168.2.205',
         'PORT':'5432',
-
-
 
 }
 }
