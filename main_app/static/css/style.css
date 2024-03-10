@@ -2,6 +2,7 @@ body {
   background-color: silver;
   display: flex;
   min-height: 100vh;
+  /* max-width: fit-content; */
   flex-direction: column;
 }
 
@@ -31,15 +32,19 @@ img {
   margin-left: 10px;
 }
 .card {
-  display: flex;
+  /* display: flex; */
   width: max-content;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  /* margin-left: 5px;
+  margin-right: 5px; */
   background-color: rgba(245, 245, 245, 0.915) !important;
 }
 
 .card-content {
-  padding: 15px !important;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1px !important;
 }
 
 nav {
@@ -68,6 +73,9 @@ form {
   outline: 3px solid #00b44b;
 }
 
+.card-content {
+  max-width: 60vw;
+}
 .card-content img {
   margin: auto;
 }
@@ -78,10 +86,7 @@ form {
 
 .card-content img:hover {
   margin: auto;
-  /* width: 100%; */
-  /* height: 100%; */
   transform: scale(1.05);
-  /* cursor: pointer; */
 }
 
 .list {
@@ -94,9 +99,15 @@ form {
 }
 
 model-viewer {
-  width: 310px;
-  height: 200px;
+  width: 389px;
+  height: 282px;
   --poster-color: rgba(255, 255, 255, 0);
+  --progress-bar-height: 0px;
+  --progress-bar-color: none;
+}
+
+.earth {
+  margin-bottom: -75px;
 }
 
 .earth model-viewer {
@@ -111,7 +122,7 @@ model-viewer {
   display: inline-block;
   position: relative;
   left: 150px;
-  top: 15px;
+  top: 10px;
 }
 
 .detail-thumbnail model-viewer {
@@ -132,6 +143,10 @@ model-viewer {
 /* Hide the images by default */
 .mySlides {
   display: none;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  justify-content: center;
 }
 
 /* Add a pointer when hovering over the thumbnail images */
@@ -144,10 +159,10 @@ model-viewer {
 .next {
   cursor: pointer;
   position: absolute;
-  top: 40%;
+  top: 55%;
   width: auto;
   padding: 16px;
-  margin-top: -50px;
+  margin-top: -10px;
   color: white;
   font-weight: bold;
   font-size: 20px;
@@ -194,7 +209,9 @@ model-viewer {
 /* Six columns side by side */
 .column {
   float: left;
-  width: 16.66%;
+  /* width: 16.66%; */
+  width: 100px;
+  height: 100px;
 }
 
 /* Add a transparency effect for thumnbail images */
@@ -207,6 +224,315 @@ model-viewer {
   opacity: 1;
 }
 
-.gallery div {
-  margin: auto;
+.unlike:hover:before {
+  content: "Un";
+}
+
+.buttons form {
+  background-color: rgba(153, 153, 153, 0);
+}
+
+.list-gallery {
+  max-width: 390px;
+  overflow: hidden;
+  flex-wrap: nowrap;
+  display: flex;
+}
+
+.searchbar {
+  height: 35px;
+  width: 150px;
+  position: relative;
+  top: 12px;
+  margin-right: 30px;
+}
+
+/* matts edits */
+.colume-container {
+  height: 95px;
+  width: 480px;
+  overflow: hidden;
+}
+
+.scroll-container {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.demo {
+  object-fit: contain;
+}
+img.responsive-img.card-panel {
+  margin-left: 0 auto;
+  margin-right: 0 auto;
+}
+.larger {
+  width: 110px !important;
+  height: 110px !important;
+  position: relative !important;
+  top: 55px !important;
+}
+
+.medium {
+  width: 110px !important;
+  height: 110px !important;
+  position: relative !important;
+  top: 40px !important;
+}
+
+img.responsive-img {
+  display: block;
+  max-width: 230px;
+  height: 300px;
+  width: auto;
+}
+.below-nav {
+  height: 200px;
+}
+
+.mySlides img.responsive-img {
+  max-height: 300px;
+  min-height: 300px;
+  max-width: 580px;
+  min-width: 500px;
+  object-fit: contain;
+}
+
+/* Dylan edits below */
+.image-form {
+  background-color: rgba(240, 248, 255, 0) !important;
+}
+
+/* #id_password {
+  display: none;
+  color: rgba(240, 248, 255, 0);
+} */
+.center {
+  display: flex;
+  align-self: center;
+  align-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav-wrapper .input-field input[type="search"] {
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  padding-left: 0;
+  height: 25px;
+  position: relative;
+  top: -10px;
+  width: 125px;
+}
+
+img.icon {
+  width: 45px;
+  height: 45px;
+  margin: 0 auto;
+  display: inline-block;
+  position: relative;
+  top: 10px;
+}
+
+img.alt-icon {
+  width: 45px;
+  height: 45px;
+  margin: 0 auto;
+  display: inline-block;
+}
+
+img.comment-icon {
+  width: 45px;
+  height: 45px;
+  margin: 0 auto;
+  display: inline-block;
+  position: relative;
+  top: -10px;
+}
+
+span.right {
+  position: relative;
+  top: -05px;
+}
+
+.hidden {
+  visibility: hidden;
+}
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.row .col.s6 {
+  margin-left: 0;
+}
+
+.media {
+  display: flex;
+  justify-content: center;
+}
+.transparent {
+  background-color: rgba(240, 248, 255, 0) !important;
+}
+.comment-name {
+  position: relative;
+  top: -35px;
+}
+
+.account-display {
+  border: 2px black solid;
+  width: fit-content;
+  padding: 30px;
+  margin: 0 auto;
+  border-radius: 8px;
+  background-color: #222;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.comment-box {
+  width: 580px;
+}
+
+.comment p {
+  text-align: left;
+  margin-left: 50px;
+}
+
+.card .comment .card-title {
+  text-align: left;
+  margin-left: 50px;
+}
+.comment-title {
+  font-weight: bolder;
+}
+
+.post-text {
+  word-wrap: break-word;
+  width: 650px;
+}
+
+.list-card {
+  width: 390px;
+  padding: 30px;
+}
+
+.details {
+  display: flex;
+  flex-direction: row;
+}
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+.post-text {
+  width: 420px;
+  padding: 42px;
+}
+
+.own-post {
+  display: flex;
+  flex-direction: row;
+}
+.own-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.details-image-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.search-bar {
+  width: 130px;
+}
+.min-search-bar {
+  width: 130px;
+}
+
+.account-img {
+  height: 250px;
+  margin-right: 50px;
+}
+
+.card .card-title {
+  font-size: 24px;
+  font-weight: 300;
+  text-align: center;
+  text-decoration: none;
+}
+
+.card .card-title a:link {
+  text-decoration: none;
+}
+
+.list-bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.bottom-left {
+  margin: 0 auto;
+}
+
+.bottom-right {
+  padding: 30px;
+  padding-top: 5px;
+}
+
+a {
+  color: black;
+}
+
+select {
+  display: block;
+}
+
+.sorter {
+  height: auto;
+  width: 150px;
+  margin-right: 50px;
+}
+
+.index-h1 {
+  margin-bottom: -20px;
+}
+h1 {
+  text-align: center;
+}
+
+input[type="file"] {
+  padding: none;
+  padding: 6px 12px;
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+
+.row .col.m6 {
+  width: 100%;
+  margin-left: auto;
+  left: auto;
+  right: auto;
 }

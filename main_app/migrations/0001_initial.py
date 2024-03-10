@@ -19,12 +19,12 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=100)),
-                ('model', models.FileField(blank=True, default='models/Earth.glb', null=True, upload_to='models/%Y/%m/$D/')),
-                ('text_content', models.TextField(blank=True, default=None, max_length=1000, null=True)),
+                ('model', models.FileField(blank=True, default='/media/models/Earth.glb', null=True, upload_to='models/%Y/%m/$D/')),
+                ('text_content', models.TextField(blank=True, default=None, max_length=500, null=True)),
                 ('tags', models.TextField(blank=True, default=None, max_length=1000, null=True)),
                 ('downloads', models.IntegerField(default=0)),
-                ('type', models.CharField(default='STL', max_length=50)),
-                ('likes', models.ManyToManyField(related_name='blog_posts', to=settings.AUTH_USER_MODEL)),
+                ('type', models.CharField(default='GLB', max_length=50)),
+                ('likes', models.ManyToManyField(related_name='likes', to=settings.AUTH_USER_MODEL)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
             name='Photo',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('url', models.CharField(max_length=200)),
+                ('url', models.CharField(max_length=3000)),
                 ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main_app.post')),
             ],
         ),
@@ -40,19 +40,19 @@ class Migration(migrations.Migration):
             name='Comment',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('images', models.CharField(blank=True, default=None, max_length=2000, null=True)),
                 ('text_content', models.CharField(max_length=3000)),
                 ('title', models.CharField(max_length=100)),
                 ('active', models.BooleanField(default=False)),
                 ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='main_app.post')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='Account',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('picture', models.CharField(blank=True, default='https://i.imgur.com/VKXouC4.png', max_length=2000, null=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('picture', models.FileField(blank=True, default='/media/models/accountImg/default.png', null=True, upload_to='models/accountImg')),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

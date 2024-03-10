@@ -7,7 +7,7 @@
   <div class="card">
     <div class="card-content">
       <div class="card-content">
-        <a href="{% url 'post_details' post.id %}">
+        <a href="{% url 'post_detail' post.id %}">
           <span class="card-title">{{post.title}}</span>
         </a>
 
@@ -16,13 +16,12 @@
           <model-viewer
             bounds="tight"
             enable-pan
-            src="/media/{{post.model}}"
-            ar
+            src="{{post.model}}"
+            loading="eager"
             disable-zoom
-            ar-modes="webxr scene-viewer quick-look"
             camera-controls
             environment-image="neutral"
-            poster="/media/{{post.model}}"
+            poster="{{post.model}}"
             seamless-poster
             shadow-intensity="1"
             auto-rotate
@@ -34,14 +33,13 @@
             <button slot="ar-button" id="ar-button">View in your space</button>
           </model-viewer>
         </div>
-        <div class="gallery">
+        <div class="gallery list-gallery">
           {% for photo in post.photo_set.all %}
           <img class="responsive-img card-panel" src="{{photo.url}}" />
           {% empty %} {% endfor %}
         </div>
         <p>{{post.text_content}}</p>
         <p>Tags: {{post.tags}}</p>
-        <p>Download Count: {{post.downloads}}</p>
         <p>{{account.name}}</p>
       </div>
     </div>
@@ -50,3 +48,4 @@
   {%endfor%}
 </div>
 {% endblock %}
+

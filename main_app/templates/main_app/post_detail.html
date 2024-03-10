@@ -1,28 +1,31 @@
 {% extends "base.html"%} {% block content %}
 
-<h1>Post Details</h1>
+
 
 <div class="row">
   <div class="col s6 col-offset-3">
     <div class="card">
       <div class="card-content">
         <div class="card-content">
-          <span class="card-title">{{post.title}}</span>
+          <span class="card-title center"><h4>{{post.title}}</h4></span>
 
           <!-- Insert photo markup below this comment -->
           <div class="detail-thumbnail">
             <model-viewer
               bounds="tight"
               enable-pan
-              src="/media/{{post.model}}"
+              src="{{post.model}}"
               ar
               ar-modes="webxr scene-viewer quick-look"
               camera-controls
               environment-image="neutral"
-              poster="/media/{{post.model}}"
+              poster="{{post.model}}"
               seamless-poster
               shadow-intensity="1"
               interaction-prompt-threshold="15000000"
+              auto-rotate
+              auto-rotate-delay="1"
+              rotation-per-second="150%"
             >
               <div class="progress-bar hide" slot="progress-bar">
                 <div class="update-bar"></div>
@@ -32,167 +35,140 @@
               </button>
             </model-viewer>
           </div>
-           <div class="container gallery">
+          <div class="caption-container">
+              <p id="caption"></p>
+            </div>
+        <div class="picture-viewer">
+           <div class="container-gallery">
             {% for photo in post.photo_set.all %}
             <div class="mySlides">
               <img class="responsive-img card-panel" src="{{photo.url}}">
             </div>
             {% empty %}
-            
+            {% if own_post %}
             <div class="card-panel teal-text center-align">
               No Photos Uploaded
             </div>
+            {%endif%}
             {% endfor %}
-          {% comment %} <div class="container">
-            <!-- Full-width images with number text -->
-            <div class="mySlides">
-              <div class="numbertext">1 / 6</div>  
-              <img src="{{photo.url}}" style="width:100%">
-            </div>
-          
-            <div class="mySlides">
-              <div class="numbertext">2 / 6</div>
-                <img src="{{photo.url}}" style="width:100%">
-            </div>
-          
-            <div class="mySlides">
-              <div class="numbertext">3 / 6</div>
-                <img src="{{photo.url}}" style="width:100%">
-            </div>
-          
-            <div class="mySlides">
-              <div class="numbertext">4 / 6</div>
-                <img src="{{photo.url}}" style="width:100%">
-            </div>
-          
-            <div class="mySlides">
-              <div class="numbertext">5 / 6</div>
-                <img src="{{photo.url}}" style="width:100%">
-            </div>
-          
-            <div class="mySlides">
-              <div class="numbertext">6 / 6</div>
-                <img src="{{photo.url}}" style="width:100%">
-            </div> {% endcomment %}
           
             <!-- Next and previous buttons -->
             <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
             <a class="next" onclick="plusSlides(1)">&#10095;</a>
           
             <!-- Image text -->
-            <div class="caption-container">
-              <p id="caption"></p>
-            </div>
+            
+      <div class="scroll-container">
+         <div class="colume-container">
             {% for photo in post.photo_set.all %}
             <div class="column">
-              <img class="demo curser" src="{{photo.url}}" style="width:100%" onclick="currentSlide({{photo.id}})">
+              <img class="demo curser" src="{{photo.url}}" style="width:100px; height:100px;" onclick="currentSlide({{photo.id}})">
             </div>
             {% empty %}
-            
-            <div class="card-panel teal-text center-align">
-              No Photos Uploaded
-            </div>
+
             {% endfor %}
-          
-            <!-- Thumbnail images -->
-            {% comment %} <div class="row">
-              <div class="column">
-                <img class="demo cursor" src="img_woods.jpg" style="width:100%" onclick="currentSlide(1)">
-              </div>
-              <div class="column">
-                <img class="demo cursor" src="img_5terre.jpg" style="width:100%" onclick="currentSlide(2)">
-              </div>
-              <div class="column">
-                <img class="demo cursor" src="img_mountains.jpg" style="width:100%" onclick="currentSlide(3)">
-              </div>
-              <div class="column">
-                <img class="demo cursor" src="img_lights.jpg" style="width:100%" onclick="currentSlide(4)">
-              </div>
-              <div class="column">
-                <img class="demo cursor" src="img_nature.jpg" style="width:100%" onclick="currentSlide(5)">
-              </div>
-              <div class="column">
-                <img class="demo cursor" src="img_snow.jpg" style="width:100%" onclick="currentSlide(6)">
-              </div>
-            </div> {% endcomment %}
           </div>
         </div>
-          <div>
-          <p>{{post.text_content}}</p>
-          <p>Tags: {{post.tags}}</p>
-          <p>Download Count: {{post.downloads}}</p>
-          <p>{{account.name}}</p>
+      </div>
+      </div>
+     
+       
+          <p class="hidden">Tags: {{post.tags}}</p>
+        <div class="details">
+          <div class="post-text">
+            <p>{{post.text_content}}</p>
+          </div>
+          <div class="buttons">  
+            <a href="{{post.model}}"><input type="button" value="Download" class="btn"></a>
+            
+            {% if not liked %}
+            <form class="transparent" action=" {% url 'like_post' post.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" name="post_id" value="{{ post.id }}" class="btn color blue" >Like</button> {{post.total_likes}} Likes
+            </form>
+            {% else %}
+            <form action=" {% url 'unlike_post' post.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" name="post_id" value="{{ post.id }}" class="btn color red unlike" value="Like">Like</button> {{post.total_likes}} Likes
+            </form>
+            {% endif %}
+           
+            <p>Uploaded By: {{post.user.username}} <img class="responsive-img icon" src="{{post.user.account.picture}}" /> </p>
+    
+          </div>
         </div>
         {% comment %} <div>
           <a href="{% url 'comment_create' post.id %}">Add Comment</a>
         </div> {% endcomment %}
-        <div>
-          <div class="card-action">
-            <form
-              action="{% url 'add_photo' post.id %}"
-              enctype="multipart/form-data"
-              method="POST"
-              class="card-panel"
-            >
-              {% csrf_token %}
-              <input type="file" name="photo-file" />
-              <br /><br />
-              <input type="submit" class="btn" value="Upload Photo" />
-            </form>
-            <a href="{% url 'post_update' post.id%}">Edit</a>
-            <a href="{% url 'post_delete' post.id%}">Delete</a>
+        {% if own_post %}
+          <div class="own-post">
+            <div class="image-form details-image-form">
+              <form
+                action="{% url 'add_photo' post.id %}"
+                enctype="multipart/form-data"
+                method="POST"
+                class="image-form"
+              >
+            
+                {% csrf_token %}
+                <input type="file" name="photo-file" />
+                <br /><br />
+    
+                <input type="submit" class="btn" value="Upload Photo" />
+              </form>
+            </div>
+            <div class="own-buttons">
+              <div class="">
+                <a class="btn color blue" href="{% url 'post_update' post.id%}">Edit</a>
+              </div>
+              <div>
+                <a class="btn color red" href="{% url 'post_delete' post.id%}">Delete</a>
+              </div>
+            </div>
           </div>
+        {%endif%}
         </div>
       </div>
     </div>
   </br>
 
-  <hr>
-  <form action=" {% url 'like_post' post.id %}" method="POST">
-    {% csrf_token %}
-    <button type="submit" name="post_id" value="{{ post.id }}" class="btn color blue" >Like</button> -{{post.total_likes}} Likes
-  </form>
-  </br>
 
-  <h5> Comments </h5>
-
+  <div class="center">
+    <a class="btn" href="{% url 'comment_create' post.pk %}">Leave a comment
+      </a>
+  </div>
   {% if not post.comments.all %}
-    No Comments yet... <a href="{% url 'comment_create' post.pk %}">
-    Add One</a>
+    <div class="comment-container theme--light">
+    <div class="comments" >No Comments yet...
+    <div class="card v-card v-sheet theme--light elevation-2" ><span class="headline" ></span>  
+
   {% else %}
-  </br>
-  <a href="{% url 'comment_create' post.pk %}">Add Comment</a>
+
 </br>
       {% for comment in post.comments.all %}  
-</br></hr>
-        <strong>{{ comment.title }}</strong>
-        </br>
-        {{ comment.text_content }}
-      </br>
-      {%if comment.images %}
-        <img src='{{ comment.images }}'>
-      </br></br>
+</br>
+  <div class="row center">
+    <div class="col s12 m6">
+      <div class="card comment-box blue-grey darken-1">
+        <div class="card-content comment white-text lefty">
+          <div class="card-title"><div class="comment-title">{{ comment.title}}</div> <div class="right comment-name">By: {{comment.user.username}} <img class="right responsive-img comment-icon" src="{{comment.user.account.picture}}"</span></div>
+          <p>{{comment.text_content }}</p>
+        </div>
+        {%if comment.user.username == request.user.username %}
+        <div class="card-action">
+          <a class="btn color blue" href="{% url 'comment_update' comment.id%}">Edit</a>
+          <a class="btn color red" href="{% url 'comment_delete' comment.id%}">Delete</a>
+        </div>
+        {%endif%}
+      </div>
+    </div>
+  </div>
 
-      {%endif%}
-      <a href="{% url 'comment_update' comment.id%}">Edit</a>
-      <a href="{% url 'comment_delete' comment.id%}">Delete</a>
     </hr>
     {% endfor %}
+
   {% endif %}
-    {% comment %} <table>
-      <tr>
-        <th>Title</th>
-        <th>Content</th>
-        <th>Images</th>
-      </tr>
-      {% for comment in post.comments%}
-      <tr>
-        <td>{{comment.title}}</td>
-        <td>{{comment.text_content}}</td>
-        <td>{{comment.images}}</td>
-      </tr>
-      {%endfor%}
-    </table> {% endcomment %}
+
   </div>
   {% endblock %}
 </div>

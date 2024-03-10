@@ -1,10 +1,32 @@
-# from attr import fields
-from .models import Comment
+
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
-from django.forms import ModelForm
+from .models import Account
 
-
-class CommentForm(ModelForm):
+class EditUserForm(UserCreationForm):
+    email = forms.EmailField()
     class Meta:
-        model = Comment
-        fields = ('title', 'images', 'text_content')
+        model = User
+        fields = ('username', 'email', 'password1' ,'password2' )
+
+class AccountCreate(forms.ModelForm):
+    class Meta:
+        model =  Account
+        fields = ['picture']
+
+
+
+class EditProfileForm(UserChangeForm):
+    
+    class Meta:
+        model = User
+        fields = (
+            'email',
+            'first_name',
+            'last_name',
+            'username',
+            'password'
+        )
+
+        

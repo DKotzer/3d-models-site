@@ -1,71 +1,109 @@
 {% extends "base.html"%} {% block content %}
 
-<h1>3D World</h1>
+<h1 class="index-h1">3D World</h1>
 
 <div class="earth">
   <model-viewer
     class="earth"
     disable-zoom
     src="media/models/NeilArmstrong.glb"
-    poster="media/Earth-poster.webp"
+    poster="media/models/NeilArmstrong-poster.webp"
     seamless-poster
-    environment-image="neutral"
+    environment-image="/media/models/old.hdr"
     shadow-intensity="1"
     autoplay
-    ar
-    ar-modes="webxr scene-viewer quick-look"
     camera-controls
     auto-rotate
+    auto-rotate-delay="1"
     interaction-prompt-threshold="15000000"
     rotation-per-second="250%"
   >
   </model-viewer>
 </div>
+<div class="right">
+  <select class="sorter" onchange="window.location=this.value">
+    <option value="value" disabled selected hidden>Sort By</option>
+    <option value="/posts/likes">Likes</option>
+    <option value="/posts">Newest</option>
+    <option value="/posts/oldest">Oldest</option>
+  </select>
+</div>
+<div class="infinite-container">
+  <div class="list">
+    {% for post in posts%}
+    <div class="card home-card">
+      <div class="card-content home-card">
+        <div class="card-content home-card">
+          <a href="{% url 'post_detail' post.id %}">
+            <span class="card-title">{{post.title}}</span>
+          </a>
 
-<div class="list">
-  {% for post in post_list%}
-  <div class="card">
-    <div class="card-content">
-      <div class="card-content">
-        <a href="{% url 'post_details' post.id %}">
-          <span class="card-title">{{post.title}}</span>
-        </a>
-
-        <!-- Insert photo markup below this comment -->
-        <div class="thumbnail">
-          <model-viewer
-            bounds="tight"
-            enable-pan
-            src="/media/{{post.model}}"
-            ar
-            disable-zoom
-            ar-modes="webxr scene-viewer quick-look"
-            camera-controls
-            environment-image="neutral"
-            poster="/media/{{post.model}}"
-            seamless-poster
-            shadow-intensity="1"
-            auto-rotate
-            interaction-prompt-threshold="15000000"
-          >
-            <div class="progress-bar hide" slot="progress-bar">
-              <div class="update-bar"></div>
+          <!-- Insert photo markup below this comment -->
+          <div class="thumbnail">
+            <model-viewer
+              bounds="tight"
+              enable-pan
+              src="{{post.model}}"
+              ar
+              loading="eager"
+              disable-zoom
+              ar-modes="webxr scene-viewer quick-look"
+              camera-controls
+              environment-image="/media/models/photo.hdr"
+              poster="{{post.model}}"
+              seamless-poster
+              shadow-intensity="1"
+              auto-rotate
+              interaction-prompt-threshold="15000000"
+            >
+              <div class="progress-bar hide" slot="progress-bar">
+                <div class="update-bar"></div>
+              </div>
+              <button slot="ar-button" id="ar-button">VR View</button>
+            </model-viewer>
+          </div>
+          <div class="gallery list-gallery">
+            {% for photo in post.photo_set.all %}
+            <img class="responsive-img card-panel" src="{{photo.url}}" />
+            {% empty %} {% endfor %}
+          </div>
+          <p class="list-card">{{post.text_content}}</p>
+          <div class="list-bottom">
+            <div class="bottom-left">
+              <p>
+                Uploaded By: {{post.user.username}}
+                <img
+                  class="responsive-img icon"
+                  src="{{post.user.account.picture}}"
+                />
+              </p>
+              <p>Like Count: {{post.like_count}}</p>
             </div>
-            <button slot="ar-button" id="ar-button">View in your space</button>
-          </model-viewer>
+            <div class="bottom-right">
+              <a class="btn center" href="{% url 'post_detail' post.id %}"
+                >Details</a
+              >
+            </div>
+          </div>
         </div>
-        <div class="gallery">
-          {% for photo in post.photo_set.all %}
-          <img class="responsive-img card-panel" src="{{photo.url}}" />
-          {% empty %} {% endfor %}
-        </div>
-        <p>{{post.text_content}}</p>
-        <p>Tags: {{post.tags}}</p>
-        <p>Download Count: {{post.downloads}}</p>
-        <p>{{account.name}}</p>
+        <p class="hidden">Tags: {{post.tags}}</p>
       </div>
     </div>
+
+    {%endfor%}
   </div>
-  {%endfor%}
 </div>
+{% if posts.has_next %}
+<a
+  class="infinite-more-link btn center"
+  href="?page={{ posts.next_page_number }}"
+  >More Models</a
+>
+{% endif %}
+
+<script>
+  var infinite = new Waypoint.Infinite({
+    element: $(".infinite-container")[0],
+  });
+</script>
 {% endblock %}
