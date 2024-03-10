@@ -100,12 +100,12 @@ DATABASES = {
     
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'threedworld',
-        'USER': 'postgres',
-        'PASSWORD': '150Knights',
-        'HOST':'192.168.2.205',
-        'PORT':'5432',
-
+        'NAME': os.getenv('NAME'),
+        'USER': os.getenv('USER'),
+        'PASSWORD': os.getenv('PASSWORD'),
+        'HOST': '192.168.2.205',
+        'PORT': '5432',
+    
 }
 }
 
