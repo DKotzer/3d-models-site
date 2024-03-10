@@ -33,7 +33,9 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['3d-world.dylankotzer.com', '192.168.2.208', 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://3d-world.dylankotzer.com']
+
 
 
 # Application definition
