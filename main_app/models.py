@@ -1,5 +1,4 @@
 from audioop import reverse
-from distutils.command.upload import upload
 from django.db import models
 from django.forms import ImageField
 from pkg_resources import to_filename
